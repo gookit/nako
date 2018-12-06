@@ -5,8 +5,8 @@ import (
 	"github.com/gookit/cliapp"
 	"github.com/gookit/cliapp/interact"
 	"github.com/gookit/cliapp/show"
+	"github.com/gookit/cliapp/utils"
 	"github.com/gookit/color"
-	"os"
 	"strings"
 )
 
@@ -52,12 +52,12 @@ func createProject(c *cliapp.Command, args []string) int {
 		targetDir = workDir
 	}
 
-	targetDir += "/" + name
+	projectDir := targetDir + "/" + name
 
 	show.AList("new project info", map[string]string{
 		"current dir": workDir,
 		"project name": name,
-		"project path": targetDir,
+		"project path": projectDir,
 		"skeleton url": createProjectOpts.repoUrl,
 	}, func(opts *show.ListOption) {
 		opts.SepChar = ": "
@@ -68,9 +68,18 @@ func createProject(c *cliapp.Command, args []string) int {
 		return 0
 	}
 
-	if err := os.MkdirAll(targetDir, 0755); err != nil {
+	cmdString := fmt.Sprintf("git clone %s", createProjectOpts.repoUrl)
+	msg, err := utils.ShellExec(cmdString, targetDir)
+	if err != nil {
 		return c.WithError(err)
 	}
+
+	color.Comment.Println("Exec result:")
+	fmt.Println(msg)
+
+	// if err := os.MkdirAll(targetDir, 0755); err != nil {
+	// 	return c.WithError(err)
+	// }
 
 	return 0
 }

@@ -5,60 +5,70 @@ import (
 	"github.com/gookit/ini"
 	"github.com/gookit/rux"
 	"github.com/gookit/view"
+	"github.com/gookit/wex/internal"
 )
 
 var (
-	CtxPool map[string]interface{}
-	// storage the application instance
-	_app *application
+	// CtxPool map[string]interface{}
+	// storage the global application instance
+	_app *Application
 )
 
-// application instance
-type application struct {
-	Name   string
+// Application instance
+type Application struct {
+	internal.SimpleEvent
+
+	Name string
+	data map[string]interface{}
+
+	booted bool
+
+	confFiles []string
+
 	View   *view.Renderer
-	Cache cache.Cache
+	Cache  cache.Cache
 	Config *ini.Ini
 	Router *rux.Router
 }
 
 // NewApp new application instance
-func NewApp(confFiles ...string) *application {
-	return &application{}
+func NewApp(confFiles ...string) *Application {
+	return &Application{
+		confFiles: confFiles,
+
+		data: make(map[string]interface{}),
+	}
 }
 
-// App get application instance
-func App() *application {
-	return _app
+// Get
+func (a *Application) Get() {
+
 }
 
-// Boot application
-func Boot(confFiles ...string) {
+// Boot application init.
+func (a *Application) Boot() {
 	var err error
 
 	// load app config
-	Config, err = ini.LoadExists(confFiles...)
+	a.Config, err = ini.LoadExists(a.confFiles...)
 	if err != nil {
 		panic(err)
 	}
 
-	// cache
+	if a.Name == "" {
+		a.Name = a.Config.DefString("name", "")
+	}
+
+	a.booted = true
 }
 
-// Router get
-func Router() *rux.Router {
-	return _app.Router
+// Run app
+func (a *Application) Run() {
+	if !a.booted {
+		a.Boot()
+	}
+
+	err := a.Router.Listen(":80")
+	panic(err)
 }
 
-// Router get
-func Config() *ini.Ini {
-	return _app.Config
-}
-
-func Cache() cache.Cache {
-	return nil
-}
-
-func Redis() {
-
-}
