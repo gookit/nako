@@ -2,7 +2,7 @@ package internal
 
 import "strings"
 
-type EventHandler func(interface{}) error
+type EventHandler func(...interface{}) error
 
 // SimpleEvent
 type SimpleEvent struct {
@@ -31,6 +31,14 @@ func (se *SimpleEvent) On(name string, handler EventHandler) {
 	}
 }
 
+// MustFire fire event by name
+func (se *SimpleEvent) MustFire(name string, args ...interface{})  {
+	err := se.Fire(name, args...)
+	if err != nil {
+		panic(err)
+	}
+}
+
 // Fire event by name
 func (se *SimpleEvent) Fire(name string, args ...interface{}) (err error) {
 	ls, ok := se.events[name]
@@ -39,10 +47,15 @@ func (se *SimpleEvent) Fire(name string, args ...interface{}) (err error) {
 	}
 
 	for _, fn := range ls {
-		if err = fn(args); err != nil {
+		if err = fn(args...); err != nil {
 			return
 		}
 	}
 
 	return
+}
+
+// Clear all events info.
+func (se *SimpleEvent) Clear()  {
+	se.events = map[string][]EventHandler{}
 }

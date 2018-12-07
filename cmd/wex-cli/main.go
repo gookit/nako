@@ -31,7 +31,7 @@ func main() {
 	})
 
 	app.Add(
-		cmd.CreateProject(),
+		cmd.CreateProjectCommand(),
 		builtin.GenAutoCompleteScript(),
 	)
 

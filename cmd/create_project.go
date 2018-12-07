@@ -4,10 +4,16 @@ import (
 	"fmt"
 	"github.com/gookit/cliapp"
 	"github.com/gookit/cliapp/interact"
+	"github.com/gookit/cliapp/progress"
 	"github.com/gookit/cliapp/show"
 	"github.com/gookit/cliapp/utils"
 	"github.com/gookit/color"
+	"io"
+	"log"
+	"net/http"
+	"os"
 	"strings"
+	"time"
 )
 
 var createProjectOpts = struct {
@@ -17,8 +23,9 @@ var createProjectOpts = struct {
 	appDir string
 }{}
 
-// CreateProject command
-func CreateProject() *cliapp.Command {
+// CreateProjectCommand command
+// run: wex-cli new:app demo ./test
+func CreateProjectCommand() *cliapp.Command {
 	c := cliapp.NewCommand(
 		"create:app",
 		"create a new application skeleton project.",
@@ -29,6 +36,7 @@ func CreateProject() *cliapp.Command {
 
 	c.Aliases = []string{"new:app", "new:project"}
 
+	// zip bag https://github.com/inhere/go-wex-skeleton/archive/master.zip
 	c.StrOpt(&createProjectOpts.repoUrl, "repo-url", "",
 		"https://github.com/inhere/go-wex-skeleton",
 		"The remote skeleton repo URL address.",
@@ -55,7 +63,7 @@ func createProject(c *cliapp.Command, args []string) int {
 	projectDir := targetDir + "/" + name
 
 	show.AList("new project info", map[string]string{
-		"current dir": workDir,
+		"current dir":  workDir,
 		"project name": name,
 		"project path": projectDir,
 		"skeleton url": createProjectOpts.repoUrl,
@@ -68,8 +76,25 @@ func createProject(c *cliapp.Command, args []string) int {
 		return 0
 	}
 
-	cmdString := fmt.Sprintf("git clone %s", createProjectOpts.repoUrl)
-	msg, err := utils.ShellExec(cmdString, targetDir)
+	err := downloadZIPArchive(
+		createProjectOpts.repoUrl+"/archive/master.zip",
+		"./",
+		"skeleton-archive.zip",
+	)
+	if err != nil {
+		return c.WithError(err)
+	}
+
+	if err := os.MkdirAll(targetDir, 0665); err != nil {
+		return c.WithError(err)
+	}
+
+	cmdString := fmt.Sprintf("clone %s %s", createProjectOpts.repoUrl, name)
+	color.Info.Print("Will Exec: git ")
+	fmt.Println(cmdString)
+
+	msg, err := utils.ExecCmd("git", strings.Split(cmdString, " "), targetDir)
+	// msg, err := utils.ShellExec(cmdString, targetDir, utils.GetCurShell(false))
 	if err != nil {
 		return c.WithError(err)
 	}
@@ -77,9 +102,45 @@ func createProject(c *cliapp.Command, args []string) int {
 	color.Comment.Println("Exec result:")
 	fmt.Println(msg)
 
-	// if err := os.MkdirAll(targetDir, 0755); err != nil {
-	// 	return c.WithError(err)
-	// }
-
 	return 0
+}
+
+// https://github.com/inhere/go-wex-skeleton/archive/master.zip
+func downloadZIPArchive(url, saveDir, filename string) (err error) {
+	return utils.Download(url, saveDir, filename )
+}
+
+func downloadZIPArchive1(url, saveAs string) (err error) {
+	newFile, err := os.Create(saveAs)
+	if err != nil {
+		return err
+	}
+	defer newFile.Close()
+
+	s := progress.LoadingSpinner(
+		progress.GetCharsTheme(18),
+		time.Duration(100)*time.Millisecond,
+	)
+
+	s.Start("%s work handling ... ...")
+
+	client := http.Client{Timeout: 300 * time.Second}
+	// Request the remote url.
+	resp, err := client.Get(url)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != 200 {
+		log.Fatalf("status code error: %d %s", resp.StatusCode, resp.Status)
+	}
+
+	_, err = io.Copy(newFile, resp.Body)
+	if err != nil {
+		return
+	}
+
+	s.Stop("work handle complete")
+	return
 }
