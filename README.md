@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/gookit/rux/badge.svg?branch=master)](https://coveralls.io/github/gookit/rux?branch=master)
 [![Go Report Card](https://goreportcard.com/badge/github.com/gookit/wex)](https://goreportcard.com/report/github.com/gookit/wex)
 
-A lightweight web application framework.
+A lightweight go web framework.
 
 ## Skeleton Repo
 

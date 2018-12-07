@@ -1,6 +1,7 @@
 package wex
 
 import (
+	"fmt"
 	"github.com/gookit/cache"
 	"github.com/gookit/ini"
 	"github.com/gookit/rux"
@@ -10,6 +11,7 @@ import (
 	"github.com/syyongx/llog/formatter"
 	"github.com/syyongx/llog/handler"
 	"github.com/syyongx/llog/types"
+	"os"
 	"time"
 )
 
@@ -100,13 +102,23 @@ func createLogger() {
 	buf.Close()
 }
 
-// Run app
-func (a *Application) Run() {
+// Run the app. addr is optional setting.
+// Usage:
+//	app.Run()
+//	app.Run(":8090")
+func (a *Application) Run(addr ...string) {
 	if !a.booted {
 		a.Boot()
 	}
 
-	err := a.Router.Listen(":80")
+	fmt.Printf("======================== Begin Running(PID: %d) ========================\n", os.Getpid())
+
+	confAddr := a.Config.DefString("server.addr", "")
+	if len(addr) == 0 && confAddr != ""{
+		addr = []string{confAddr}
+	}
+
+	err := a.Router.Listen(addr...)
 	panic(err)
 }
 

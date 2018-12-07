@@ -8,6 +8,7 @@ import (
 	"github.com/gookit/cliapp/show"
 	"github.com/gookit/cliapp/utils"
 	"github.com/gookit/color"
+	"github.com/gookit/goutil/fs"
 	"io"
 	"log"
 	"net/http"
@@ -17,7 +18,8 @@ import (
 )
 
 var createProjectOpts = struct {
-	repoUrl string
+	repoUrl  string
+	forceNew bool
 
 	//
 	appDir string
@@ -40,6 +42,9 @@ func CreateProjectCommand() *cliapp.Command {
 	c.StrOpt(&createProjectOpts.repoUrl, "repo-url", "",
 		"https://github.com/inhere/go-wex-skeleton",
 		"The remote skeleton repo URL address.",
+	)
+	c.BoolOpt(&createProjectOpts.forceNew, "force-new", "f", false,
+		"force re-download repo archive package",
 	)
 	c.AddArg("name", "the will created project name.", true)
 	c.AddArg("dir", "the created project dir path. default is current dir.")
@@ -85,62 +90,15 @@ func createProject(c *cliapp.Command, args []string) int {
 		return c.WithError(err)
 	}
 
-	if err := os.MkdirAll(targetDir, 0665); err != nil {
-		return c.WithError(err)
-	}
-
-	cmdString := fmt.Sprintf("clone %s %s", createProjectOpts.repoUrl, name)
-	color.Info.Print("Will Exec: git ")
-	fmt.Println(cmdString)
-
-	msg, err := utils.ExecCmd("git", strings.Split(cmdString, " "), targetDir)
-	// msg, err := utils.ShellExec(cmdString, targetDir, utils.GetCurShell(false))
+	err = fs.Unzip("./skeleton-archive.zip", targetDir)
 	if err != nil {
 		return c.WithError(err)
 	}
-
-	color.Comment.Println("Exec result:")
-	fmt.Println(msg)
 
 	return 0
 }
 
 // https://github.com/inhere/go-wex-skeleton/archive/master.zip
 func downloadZIPArchive(url, saveDir, filename string) (err error) {
-	return utils.Download(url, saveDir, filename )
-}
-
-func downloadZIPArchive1(url, saveAs string) (err error) {
-	newFile, err := os.Create(saveAs)
-	if err != nil {
-		return err
-	}
-	defer newFile.Close()
-
-	s := progress.LoadingSpinner(
-		progress.GetCharsTheme(18),
-		time.Duration(100)*time.Millisecond,
-	)
-
-	s.Start("%s work handling ... ...")
-
-	client := http.Client{Timeout: 300 * time.Second}
-	// Request the remote url.
-	resp, err := client.Get(url)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer resp.Body.Close()
-
-	if resp.StatusCode != 200 {
-		log.Fatalf("status code error: %d %s", resp.StatusCode, resp.Status)
-	}
-
-	_, err = io.Copy(newFile, resp.Body)
-	if err != nil {
-		return
-	}
-
-	s.Stop("work handle complete")
-	return
+	return utils.Download(url, saveDir, filename)
 }
