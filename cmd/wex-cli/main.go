@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/gookit/cliapp"
-	"github.com/gookit/cliapp/builtin"
+	"github.com/gookit/gcli"
+	"github.com/gookit/gcli/builtin"
 	"github.com/gookit/wex/cmd"
 	"runtime"
 )
@@ -13,10 +13,10 @@ import (
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
-	app := cliapp.NewApp(func(app *cliapp.App) {
+	app := gcli.NewApp(func(app *gcli.App) {
 		app.Version = "1.0.6"
 		app.Description = "this is wex cli application"
-		app.Hooks[cliapp.EvtInit] = func(a *cliapp.App, data interface{}) {
+		app.Hooks[gcli.EvtInit] = func(a *gcli.App, data interface{}) {
 			// do something...
 			// fmt.Println("init app")
 		}

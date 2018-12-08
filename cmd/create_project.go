@@ -2,11 +2,11 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/gookit/cliapp"
-	"github.com/gookit/cliapp/interact"
-	"github.com/gookit/cliapp/show"
-	"github.com/gookit/cliapp/utils"
 	"github.com/gookit/color"
+	"github.com/gookit/gcli"
+	"github.com/gookit/gcli/interact"
+	"github.com/gookit/gcli/show"
+	"github.com/gookit/gcli/utils"
 	"github.com/gookit/goutil/fsUtil"
 	"strings"
 )
@@ -21,11 +21,11 @@ var createProjectOpts = struct {
 
 // CreateProjectCommand command
 // run: wex-cli new:app demo ./test
-func CreateProjectCommand() *cliapp.Command {
-	c := cliapp.NewCommand(
+func CreateProjectCommand() *gocli.Command {
+	c := gocli.NewCommand(
 		"create:app",
 		"create a new application skeleton project.",
-		func(c *cliapp.Command) {
+		func(c *gocli.Command) {
 			//
 		},
 	)
@@ -48,7 +48,7 @@ func CreateProjectCommand() *cliapp.Command {
 }
 
 // do exec
-func createProject(c *cliapp.Command, args []string) int {
+func createProject(c *gocli.Command, args []string) int {
 	fmt.Println(createProjectOpts)
 	fmt.Println(args, c.Arg("dir").String(), c.App().WorkDir())
 

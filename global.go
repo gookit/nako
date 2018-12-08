@@ -13,7 +13,7 @@ func NewGlobalApp() *Application {
 }
 
 // SetGlobal app instance
-func SetGlobal(a *Application)  {
+func SetGlobal(a *Application) {
 	_app = a
 }
 
@@ -40,4 +40,3 @@ func Cache() cache.Cache {
 func Redis() {
 
 }
-

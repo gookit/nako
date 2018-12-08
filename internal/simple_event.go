@@ -32,7 +32,7 @@ func (se *SimpleEvent) On(name string, handler EventHandler) {
 }
 
 // MustFire fire event by name
-func (se *SimpleEvent) MustFire(name string, args ...interface{})  {
+func (se *SimpleEvent) MustFire(name string, args ...interface{}) {
 	err := se.Fire(name, args...)
 	if err != nil {
 		panic(err)
@@ -56,6 +56,6 @@ func (se *SimpleEvent) Fire(name string, args ...interface{}) (err error) {
 }
 
 // Clear all events info.
-func (se *SimpleEvent) Clear()  {
+func (se *SimpleEvent) Clear() {
 	se.events = map[string][]EventHandler{}
 }

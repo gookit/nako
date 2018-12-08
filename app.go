@@ -113,12 +113,11 @@ func (a *Application) Run(addr ...string) {
 
 	fmt.Printf("======================== Begin Running(PID: %d) ========================\n", os.Getpid())
 
-	confAddr := a.Config.DefString("server.addr", "")
-	if len(addr) == 0 && confAddr != ""{
+	confAddr := a.Config.DefString("listen", "")
+	if len(addr) == 0 && confAddr != "" {
 		addr = []string{confAddr}
 	}
 
 	err := a.Router.Listen(addr...)
 	panic(err)
 }
-
