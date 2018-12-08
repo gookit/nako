@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"github.com/gookit/color"
 	"github.com/gookit/gcli"
+	"github.com/gookit/gcli/helper"
 	"github.com/gookit/gcli/interact"
 	"github.com/gookit/gcli/show"
-	"github.com/gookit/gcli/utils"
 	"github.com/gookit/goutil/fsUtil"
 	"strings"
 )
@@ -21,11 +21,11 @@ var createProjectOpts = struct {
 
 // CreateProjectCommand command
 // run: wex-cli new:app demo ./test
-func CreateProjectCommand() *gocli.Command {
-	c := gocli.NewCommand(
+func CreateProjectCommand() *gcli.Command {
+	c := gcli.NewCommand(
 		"create:app",
 		"create a new application skeleton project.",
-		func(c *gocli.Command) {
+		func(c *gcli.Command) {
 			//
 		},
 	)
@@ -48,7 +48,7 @@ func CreateProjectCommand() *gocli.Command {
 }
 
 // do exec
-func createProject(c *gocli.Command, args []string) int {
+func createProject(c *gcli.Command, args []string) (err error) {
 	fmt.Println(createProjectOpts)
 	fmt.Println(args, c.Arg("dir").String(), c.App().WorkDir())
 
@@ -72,27 +72,23 @@ func createProject(c *gocli.Command, args []string) int {
 
 	if interact.Unconfirmed("ensure create the new project?", true) {
 		color.Cyan.Println("Quit create!")
-		return 0
+		return
 	}
 
-	err := downloadZIPArchive(
+	err = downloadZIPArchive(
 		createProjectOpts.repoUrl+"/archive/master.zip",
 		"./",
 		"skeleton-archive.zip",
 	)
 	if err != nil {
-		return c.WithError(err)
+		return
 	}
 
 	err = fsUtil.Unzip("./skeleton-archive.zip", targetDir)
-	if err != nil {
-		return c.WithError(err)
-	}
-
-	return 0
+	return
 }
 
 // https://github.com/inhere/go-wex-skeleton/archive/master.zip
 func downloadZIPArchive(url, saveDir, filename string) (err error) {
-	return utils.Download(url, saveDir, filename)
+	return helper.Download(url, saveDir, filename)
 }

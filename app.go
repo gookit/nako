@@ -3,6 +3,7 @@ package wex
 import (
 	"fmt"
 	"github.com/gookit/cache"
+	"github.com/gookit/goutil/mapUtil"
 	"github.com/gookit/ini"
 	"github.com/gookit/rux"
 	"github.com/gookit/view"
@@ -84,7 +85,16 @@ func (a *Application) Boot() {
 	a.MustFire(EvtBooted, a)
 }
 
-func createLogger() {
+func createLogger(conf map[string]string) {
+	conf = mapUtil.MergeStringMap(conf, map[string]string{
+		"name":   "my-log",
+		"path":   "/tmp/logs/app.log",
+		"level":  "warning",
+		"format": "",
+		// 0 - disable buffer; >0 - enable buffer
+		"bufferSize": "0",
+	}, false)
+
 	logger := llog.NewLogger("wex")
 
 	file := handler.NewFile("/tmp/llog/go.log", 0664, types.WARNING, true)

@@ -23,6 +23,6 @@ func main() {
 	app.Run("localhost:8092")
 }
 
-func addRoutes(router *rux.Router)  {
+func addRoutes(router *rux.Router) {
 
 }
