@@ -4,17 +4,11 @@ import (
 	"fmt"
 	"github.com/gookit/cliapp"
 	"github.com/gookit/cliapp/interact"
-	"github.com/gookit/cliapp/progress"
 	"github.com/gookit/cliapp/show"
 	"github.com/gookit/cliapp/utils"
 	"github.com/gookit/color"
-	"github.com/gookit/goutil/fs"
-	"io"
-	"log"
-	"net/http"
-	"os"
+	"github.com/gookit/goutil/fsUtil"
 	"strings"
-	"time"
 )
 
 var createProjectOpts = struct {
@@ -90,7 +84,7 @@ func createProject(c *cliapp.Command, args []string) int {
 		return c.WithError(err)
 	}
 
-	err = fs.Unzip("./skeleton-archive.zip", targetDir)
+	err = fsUtil.Unzip("./skeleton-archive.zip", targetDir)
 	if err != nil {
 		return c.WithError(err)
 	}
