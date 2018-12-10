@@ -4,6 +4,7 @@ import (
 	"github.com/gookit/rux"
 	"github.com/gookit/rux/handlers"
 	"github.com/gookit/wex"
+	"net/http"
 )
 
 func main() {
@@ -16,9 +17,12 @@ func main() {
 	router.Use(handlers.RequestLogger())
 
 	router.GET("/", func(c *rux.Context) {
-		err := c.Text(200, "hello")
-		c.Error(err)
+		c.Text(200, "hello")
 	})
+
+	app.BeforeRoute = func(w http.ResponseWriter, r *http.Request) {
+
+	}
 
 	app.Run("localhost:8092")
 }

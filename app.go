@@ -12,6 +12,7 @@ import (
 	"github.com/syyongx/llog/formatter"
 	"github.com/syyongx/llog/handler"
 	"github.com/syyongx/llog/types"
+	"net/http"
 	"os"
 	"time"
 )
@@ -29,7 +30,7 @@ var (
 
 // Application instance
 type Application struct {
-	internal.SimpleEvent
+	internal.EventManager
 
 	Name string
 	data map[string]interface{}
@@ -37,7 +38,11 @@ type Application struct {
 	booted bool
 
 	confFiles []string
+	//
+	BeforeRoute http.HandlerFunc
+	AfterRoute http.HandlerFunc
 
+	// components
 	View   *view.Renderer
 	Cache  cache.Cache
 	Config *ini.Ini
@@ -130,4 +135,27 @@ func (a *Application) Run(addr ...string) {
 
 	err := a.Router.Listen(addr...)
 	panic(err)
+}
+
+/*************************************************************
+ * handle HTTP request
+ *************************************************************/
+
+// ServeHTTP handle HTTP request
+func (a *Application) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		if err := recover(); err != nil {
+			w.WriteHeader(500)
+		}
+	}()
+
+	if a.BeforeRoute != nil {
+		a.BeforeRoute(w, r)
+	}
+
+	a.Router.ServeHTTP(w, r)
+
+	if a.AfterRoute != nil {
+		a.AfterRoute(w, r)
+	}
 }
