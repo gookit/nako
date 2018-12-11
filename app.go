@@ -3,11 +3,11 @@ package wex
 import (
 	"fmt"
 	"github.com/gookit/cache"
+	"github.com/gookit/event/simpleevent"
 	"github.com/gookit/goutil/mapUtil"
 	"github.com/gookit/ini"
 	"github.com/gookit/rux"
 	"github.com/gookit/view"
-	"github.com/gookit/wex/internal"
 	"github.com/syyongx/llog"
 	"github.com/syyongx/llog/formatter"
 	"github.com/syyongx/llog/handler"
@@ -30,7 +30,7 @@ var (
 
 // Application instance
 type Application struct {
-	internal.EventManager
+	simpleevent.EventManager
 
 	Name string
 	data map[string]interface{}
@@ -60,6 +60,8 @@ func NewApp(confFiles ...string) *Application {
 		// services
 		Router: rux.New(),
 		Config: ini.New(),
+		// events
+		EventManager: *simpleevent.NewEventManager(),
 	}
 }
 
@@ -133,8 +135,7 @@ func (a *Application) Run(addr ...string) {
 		addr = []string{confAddr}
 	}
 
-	err := a.Router.Listen(addr...)
-	panic(err)
+	a.Router.Listen(addr...)
 }
 
 /*************************************************************
