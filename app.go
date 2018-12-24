@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/gookit/cache"
 	"github.com/gookit/event/simpleevent"
-	"github.com/gookit/goutil/mapUtil"
+	"github.com/gookit/goutil/maputil"
 	"github.com/gookit/ini"
 	"github.com/gookit/rux"
 	"github.com/gookit/view"
@@ -93,7 +93,7 @@ func (a *Application) Boot() {
 }
 
 func createLogger(conf map[string]string) {
-	conf = mapUtil.MergeStringMap(conf, map[string]string{
+	conf = maputil.MergeStringMap(conf, map[string]string{
 		"name":   "my-log",
 		"path":   "/tmp/logs/app.log",
 		"level":  "warning",

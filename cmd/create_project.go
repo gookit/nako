@@ -7,7 +7,7 @@ import (
 	"github.com/gookit/gcli/helper"
 	"github.com/gookit/gcli/interact"
 	"github.com/gookit/gcli/show"
-	"github.com/gookit/goutil/fsUtil"
+	"github.com/gookit/goutil/fsutil"
 	"strings"
 )
 
@@ -84,7 +84,7 @@ func createProject(c *gcli.Command, args []string) (err error) {
 		return
 	}
 
-	err = fsUtil.Unzip("./skeleton-archive.zip", targetDir)
+	err = fsutil.Unzip("./skeleton-archive.zip", targetDir)
 	return
 }
 
