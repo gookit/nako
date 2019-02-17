@@ -2,13 +2,14 @@ package cmd
 
 import (
 	"fmt"
+	"strings"
+
 	"github.com/gookit/color"
 	"github.com/gookit/gcli"
 	"github.com/gookit/gcli/helper"
 	"github.com/gookit/gcli/interact"
 	"github.com/gookit/gcli/show"
 	"github.com/gookit/goutil/fsutil"
-	"strings"
 )
 
 var createProjectOpts = struct {

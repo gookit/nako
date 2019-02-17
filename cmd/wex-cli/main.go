@@ -1,10 +1,11 @@
 package main
 
 import (
+	"runtime"
+
 	"github.com/gookit/gcli"
 	"github.com/gookit/gcli/builtin"
 	"github.com/gookit/wex/cmd"
-	"runtime"
 )
 
 // run:
@@ -16,10 +17,11 @@ func main() {
 	app := gcli.NewApp(func(app *gcli.App) {
 		app.Version = "1.0.6"
 		app.Description = "this is wex cli application"
-		app.Hooks[gcli.EvtInit] = func(a *gcli.App, data interface{}) {
+		app.On(gcli.EvtInit, func(data ...interface{}) {
 			// do something...
 			// fmt.Println("init app")
-		}
+		})
+
 		// app.SetVerbose(cliapp.VerbDebug)
 		// app.DefaultCommand("example")
 		app.Logo.Text = `   ________    _______

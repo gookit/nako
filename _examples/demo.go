@@ -1,13 +1,14 @@
 package main
 
 import (
+	"github.com/gookit/event/simpleevent"
 	"github.com/gookit/rux"
 	"github.com/gookit/rux/handlers"
 	"github.com/gookit/wex"
-	"net/http"
 )
 
 func main() {
+
 	app := wex.NewApp()
 
 	// add routes
@@ -20,9 +21,10 @@ func main() {
 		c.Text(200, "hello")
 	})
 
-	app.BeforeRoute = func(w http.ResponseWriter, r *http.Request) {
-
-	}
+	app.On("http.run", func(e *simpleevent.EventData) error {
+		// httpSrv.Run()
+		return nil
+	})
 
 	app.Run("localhost:8092")
 }

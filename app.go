@@ -2,6 +2,10 @@ package wex
 
 import (
 	"fmt"
+	"net/http"
+	"os"
+	"time"
+
 	"github.com/gookit/cache"
 	"github.com/gookit/event/simpleevent"
 	"github.com/gookit/goutil/maputil"
@@ -12,9 +16,6 @@ import (
 	"github.com/syyongx/llog/formatter"
 	"github.com/syyongx/llog/handler"
 	"github.com/syyongx/llog/types"
-	"net/http"
-	"os"
-	"time"
 )
 
 const (
@@ -40,7 +41,7 @@ type Application struct {
 	confFiles []string
 	//
 	BeforeRoute http.HandlerFunc
-	AfterRoute http.HandlerFunc
+	AfterRoute  http.HandlerFunc
 
 	// components
 	View   *view.Renderer
@@ -121,8 +122,8 @@ func createLogger(conf map[string]string) {
 
 // Run the app. addr is optional setting.
 // Usage:
-//	app.Run()
-//	app.Run(":8090")
+// 	app.Run()
+// 	app.Run(":8090")
 func (a *Application) Run(addr ...string) {
 	if !a.booted {
 		a.Boot()
