@@ -1,6 +1,7 @@
 package main
 
 import (
+	"io/ioutil"
 	"runtime"
 
 	"github.com/gookit/gcli"
@@ -24,12 +25,8 @@ func main() {
 
 		// app.SetVerbose(gcli.VerbDebug)
 		// app.DefaultCommand("example")
-		app.Logo.Text = `   ________    _______
-  / ____/ /   /  _/   |  ____  ____
- / /   / /    / // /| | / __ \/ __ \
-/ /___/ /____/ // ___ |/ /_/ / /_/ /
-\____/_____/___/_/  |_/ .___/ .___/
-                     /_/   /_/`
+		textBts, _ := ioutil.ReadFile("resource/fontlogo/ansi-shadow.txt")
+		app.Logo.Text = string(textBts)
 	})
 
 	app.Add(
