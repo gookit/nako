@@ -18,5 +18,4 @@
 *.out
 .DS_Store
 vendor
-/demo
-/wex-cli
+/lako

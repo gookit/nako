@@ -21,7 +21,7 @@ var createProjectOpts = struct {
 }{}
 
 // CreateProjectCommand command
-// run: wex-cli new:app demo ./test
+// run: lako new:app demo ./test
 func CreateProjectCommand() *gcli.Command {
 	c := gcli.NewCommand(
 		"create:app",
@@ -33,9 +33,9 @@ func CreateProjectCommand() *gcli.Command {
 
 	c.Aliases = []string{"new:app", "new:project"}
 
-	// zip bag https://github.com/inhere/go-wex-skeleton/archive/master.zip
+	// zip bag https://github.com/inhere/go-lako-skeleton/archive/master.zip
 	c.StrOpt(&createProjectOpts.repoUrl, "repo-url", "",
-		"https://github.com/inhere/go-wex-skeleton",
+		"https://github.com/inhere/go-lako-skeleton",
 		"The remote skeleton repo URL address.",
 	)
 	c.BoolOpt(&createProjectOpts.forceNew, "force-new", "f", false,
@@ -89,7 +89,7 @@ func createProject(c *gcli.Command, args []string) (err error) {
 	return
 }
 
-// https://github.com/inhere/go-wex-skeleton/archive/master.zip
+// https://github.com/inhere/go-lako-skeleton/archive/master.zip
 func downloadZIPArchive(url, saveDir, filename string) (err error) {
 	return helper.Download(url, saveDir, filename)
 }

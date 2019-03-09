@@ -1,4 +1,4 @@
-package wex
+package lako
 
 import (
 	"fmt"
@@ -103,7 +103,7 @@ func createLogger(conf map[string]string) {
 		"bufferSize": "0",
 	}, false)
 
-	logger := llog.NewLogger("wex")
+	logger := llog.NewLogger("lako")
 
 	file := handler.NewFile("/tmp/llog/go.log", 0664, types.WARNING, true)
 	buf := handler.NewBuffer(file, 1, types.WARNING, true)

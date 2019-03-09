@@ -5,18 +5,18 @@ import (
 
 	"github.com/gookit/gcli"
 	"github.com/gookit/gcli/builtin"
-	"github.com/gookit/wex/cmd"
+	"github.com/gookit/lako/cmd"
 )
 
 // run:
-// go run ./cmd/wex-cli
-// go build ./cmd/wex-cli && ./wex-cli
+// go run ./cmd/lako
+// go build ./cmd/lako && ./lako
 func main() {
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	app := gcli.NewApp(func(app *gcli.App) {
 		app.Version = "1.0.6"
-		app.Description = "this is wex cli application"
+		app.Description = "this is lako cli application"
 		app.On(gcli.EvtInit, func(data ...interface{}) {
 			// do something...
 			// fmt.Println("init app")

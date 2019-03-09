@@ -4,12 +4,12 @@ import (
 	"github.com/gookit/event/simpleevent"
 	"github.com/gookit/rux"
 	"github.com/gookit/rux/handlers"
-	"github.com/gookit/wex"
+	"github.com/gookit/lako"
 )
 
 func main() {
 
-	app := wex.NewApp()
+	app := lako.NewApp()
 
 	// add routes
 	router := app.Router
