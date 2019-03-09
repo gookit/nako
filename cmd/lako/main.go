@@ -22,7 +22,7 @@ func main() {
 			// fmt.Println("init app")
 		})
 
-		// app.SetVerbose(cliapp.VerbDebug)
+		// app.SetVerbose(gcli.VerbDebug)
 		// app.DefaultCommand("example")
 		app.Logo.Text = `   ________    _______
   / ____/ /   /  _/   |  ____  ____

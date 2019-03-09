@@ -7,6 +7,7 @@ require (
 	github.com/gookit/cache v0.0.0-20181025060743-a028f20ce6e0
 	github.com/gookit/color v1.1.6
 	github.com/gookit/event v1.0.0
+	github.com/gookit/gcli v0.0.0-20190217161834-7f51736425a0
 	github.com/gookit/goutil v0.1.2
 	github.com/gookit/ini v1.1.1
 	github.com/gookit/rux v1.1.2

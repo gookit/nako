@@ -2,9 +2,9 @@ package main
 
 import (
 	"github.com/gookit/event/simpleevent"
+	"github.com/gookit/lako"
 	"github.com/gookit/rux"
 	"github.com/gookit/rux/handlers"
-	"github.com/gookit/lako"
 )
 
 func main() {
