@@ -7,7 +7,7 @@ A lightweight go web framework.
 
 ## Skeleton Repo
 
-- see [inhere/go-lako-skeleton](https://github.com/inhere/go-lako-skeleton)
+- see [inhere/go-web-skeleton](https://github.com/inhere/go-web-skeleton)
 
 ## Create Project
 
