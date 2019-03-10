@@ -15,7 +15,7 @@ A lightweight go web framework.
 go get github.com/gookit/lako/cmd/lako
 
 // create new project
-lako create:app my-project ./
+lako new:app my-project ./
 ```
 
 ## Flow

@@ -38,7 +38,7 @@ func (s *HTTPServer) Run(addr ...string) {
 				}
 			}()
 
-			app.MustFire(OnAfterRoute, event.M{"w": w, "r": r})
+			app.MustFire(OnBeforeRoute, event.M{"w": w, "r": r})
 
 			app.Router.ServeHTTP(w, r)
 
@@ -64,9 +64,9 @@ func (s *HTTPServer) handleSignal(server *http.Server) {
 
 	go func() {
 		s := <-c
-		logger.Printf("got signal [%s], exiting server now", s)
+		logger.Printf("Got signal [%s], exiting server now", s)
 		if err := server.Close(); nil != err {
-			logger.Printf("server close failed: %s", err.Error())
+			logger.Printf("Server close failed: %s", err.Error())
 		}
 
 		lako.App().MustFire(OnServerClose, event.M{"sig": s})
