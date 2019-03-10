@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/gookit/cache"
+	"github.com/gookit/config"
 	"github.com/gookit/event/simpleevent"
 	"github.com/gookit/goutil/maputil"
 	"github.com/gookit/ini"
@@ -46,7 +47,7 @@ type Application struct {
 	// components
 	View   *view.Renderer
 	Cache  cache.Cache
-	Config *ini.Ini
+	Config *config.Config
 	Router *rux.Router
 	Logger *llog.Logger
 }
@@ -84,7 +85,7 @@ func (a *Application) Boot() {
 	}
 
 	if a.Name == "" {
-		a.Name = a.Config.DefString("name", "")
+		a.Name = a.Config.String("name", "")
 	}
 
 	// views
