@@ -6,15 +6,20 @@ import (
 	"github.com/gookit/rux"
 )
 
-// NewGlobalApp create
-func NewDefaultApp(confFiles ...string) *Application {
-	defApp = NewApp(confFiles...)
-	return defApp
-}
+var (
+	// CtxPool map[string]interface{}
+	// storage the global application instance
+	defApp = NewApp()
+)
 
 // SetGlobal app instance
 func SetDefaultApp(app *Application) {
 	defApp = app
+}
+
+// DefaultApp get application instance
+func DefaultApp() *Application {
+	return defApp
 }
 
 // App get application instance

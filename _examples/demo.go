@@ -3,12 +3,14 @@ package main
 import (
 	"github.com/gookit/event"
 	"github.com/gookit/lako"
+	"github.com/gookit/lako/boot"
 	"github.com/gookit/rux"
 	"github.com/gookit/rux/handlers"
 )
 
+// go build _examples/demo.go && demo
 func main() {
-	app := lako.NewDefaultApp()
+	app := lako.DefaultApp()
 
 	// add routes
 	router := app.Router
@@ -20,13 +22,14 @@ func main() {
 		c.Text(200, "hello")
 	})
 
-	app.On(lako.AfterBoot, event.ListenerFunc(func(e event.Event) error {
+	app.On(lako.OnAfterBoot, event.ListenerFunc(func(e event.Event) error {
 		return nil
 	}))
 
-	app.Run("localhost:8092")
-}
+	app.BootLoaders = []lako.BootLoader{
+		&boot.LogBootLoader{},
+		&boot.ConsoleBootLoader{},
+	}
 
-func addRoutes(router *rux.Router) {
-
+	app.Run()
 }

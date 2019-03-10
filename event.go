@@ -2,8 +2,15 @@ package lako
 
 // Some app event names
 const (
-	BeforeBoot  = "app.boot.before"
-	AfterBoot   = "app.boot.after"
-	BeforeRoute = "app.route.before"
-	AfterRoute  = "app.route.after"
+	OnBeforeBoot = "app.boot.before"
+	OnAfterBoot  = "app.boot.after"
+
+	OnBeforeConfig = "app.config.before"
+	OnAfterConfig = "app.config.after"
+
+	OnBeforeConsole = "app.console.before"
+	OnAfterConsole  = "app.console.after"
+
+	OnBeforeRoute = "app.route.before"
+	OnAfterRoute  = "app.route.after"
 )

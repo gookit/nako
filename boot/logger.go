@@ -38,7 +38,6 @@ func (*LogBootLoader) Boot(app *lako.Application) error {
 
 	// add log
 	logger.Warning("xxx")
-
 	// close and write
 	buf.Close()
 

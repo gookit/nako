@@ -1,4 +1,4 @@
-package http
+package cmd
 
 import "github.com/gookit/gcli"
 

@@ -1,10 +1,6 @@
 package lako
 
 import (
-	"fmt"
-	"net/http"
-	"os"
-
 	"github.com/gookit/cache"
 	"github.com/gookit/config"
 	"github.com/gookit/event"
@@ -14,12 +10,6 @@ import (
 	"github.com/syyongx/llog"
 )
 
-var (
-	// CtxPool map[string]interface{}
-	// storage the global application instance
-	defApp *Application
-)
-
 // Application instance
 type Application struct {
 	*event.Manager
@@ -27,11 +17,8 @@ type Application struct {
 	Name string
 	data map[string]interface{}
 
-	bootLoaders []BootLoader
+	BootLoaders []BootLoader
 
-	booted bool
-
-	confFiles []string
 	// components
 	View   *view.Renderer
 	Cache  cache.Cache
@@ -41,10 +28,8 @@ type Application struct {
 }
 
 // NewApp new application instance
-func NewApp(confFiles ...string) *Application {
+func NewApp() *Application {
 	app := &Application{
-		confFiles: confFiles,
-
 		data: make(map[string]interface{}),
 
 		// services
@@ -57,10 +42,36 @@ func NewApp(confFiles ...string) *Application {
 	return app
 }
 
-// Get
+// get default loaders
 func (a *Application) defaultLoaders() []BootLoader {
 	return []BootLoader{
+		boot.EnvBootLoader("./", ".env"),
+		boot.ConfigBootLoader("./config/app.ini"),
 		&boot.LogBootLoader{},
+	}
+}
+
+// Run the application
+// Usage:
+// 	app.Run()
+func (a *Application) Run() {
+	a.MustFire(OnBeforeBoot, event.M{"app": a})
+
+	a.bootstrap()
+
+	a.MustFire(OnAfterBoot, event.M{"app": a})
+}
+
+// Bootstrap application init.
+func (a *Application) bootstrap() {
+	for _, loader := range a.BootLoaders {
+		if err := loader.Boot(a); err != nil {
+			panic(err)
+		}
+	}
+
+	if a.Name == "" {
+		a.Name = a.Config.String("name", "")
 	}
 }
 
@@ -75,70 +86,4 @@ func (a *Application) Get(name string) interface{} {
 		return val
 	}
 	return nil
-}
-
-// Bootstrap application init.
-func (a *Application) bootstrap() {
-	var err error
-
-	a.MustFire(BeforeBoot, event.M{"app": a})
-
-	// load app config
-	err = a.Config.LoadExists(a.confFiles...)
-	if err != nil {
-		panic(err)
-	}
-
-	if a.Name == "" {
-		a.Name = a.Config.String("name", "")
-	}
-
-	// views
-	a.booted = true
-	a.MustFire(AfterBoot, event.M{"app": a})
-}
-
-// Run the app. addr is optional setting.
-// Usage:
-// 	app.Run()
-// 	app.Run(":8090")
-func (a *Application) Run(addr ...string) {
-
-	a.bootstrap()
-
-	fmt.Printf("======================== Begin Running(PID: %d) ========================\n", os.Getpid())
-
-	confAddr := a.Config.String("listen", "")
-	if len(addr) == 0 && confAddr != "" {
-		addr = []string{confAddr}
-	}
-
-	a.Router.Listen(addr...)
-}
-
-func (a *Application) BootLoaders() []BootLoader {
-	return a.bootLoaders
-}
-
-func (a *Application) SetBootLoaders(bootLoaders []BootLoader) {
-	a.bootLoaders = bootLoaders
-}
-
-/*************************************************************
- * handle HTTP request
- *************************************************************/
-
-// ServeHTTP handle HTTP request
-func (a *Application) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if err := recover(); err != nil {
-			w.WriteHeader(500)
-		}
-	}()
-
-	a.MustFire(AfterBoot, event.M{"w": w, "r": r})
-
-	a.Router.ServeHTTP(w, r)
-
-	a.MustFire(AfterBoot, event.M{"w": w, "r": r})
 }
