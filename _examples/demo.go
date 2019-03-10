@@ -1,15 +1,14 @@
 package main
 
 import (
-	"github.com/gookit/event/simpleevent"
+	"github.com/gookit/event"
 	"github.com/gookit/lako"
 	"github.com/gookit/rux"
 	"github.com/gookit/rux/handlers"
 )
 
 func main() {
-
-	app := lako.NewApp()
+	app := lako.NewDefaultApp()
 
 	// add routes
 	router := app.Router
@@ -21,10 +20,9 @@ func main() {
 		c.Text(200, "hello")
 	})
 
-	app.On("http.run", func(e *simpleevent.EventData) error {
-		// httpSrv.Run()
+	app.On(lako.AfterBoot, event.ListenerFunc(func(e event.Event) error {
 		return nil
-	})
+	}))
 
 	app.Run("localhost:8092")
 }

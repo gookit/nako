@@ -18,6 +18,12 @@ go get github.com/gookit/lako/cmd/lako
 lako create:app my-project ./
 ```
 
+## Flow
+
+```text
+Start boot
+```
+
 ## LICENSE
 
 **[MIT](LICENSE)**
