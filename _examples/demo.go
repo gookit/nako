@@ -27,6 +27,8 @@ func main() {
 	}))
 
 	app.BootLoaders = []lako.BootLoader{
+		boot.EnvBootLoader("./", ".env"),
+		boot.ConfigBootLoader("./config/app.ini"),
 		&boot.LogBootLoader{},
 		&boot.ConsoleBootLoader{},
 	}

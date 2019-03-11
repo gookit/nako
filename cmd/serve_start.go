@@ -38,7 +38,7 @@ func StartServerCommand() *gcli.Command {
 	c.Func = func(c *gcli.Command, args []string) error {
 		fmt.Printf("======================== Begin Running(PID: %d) ========================\n", os.Getpid())
 
-		web.HTTPServer{}.Run(httpServeOpts.addr)
+		web.NewHTTPServer().Run(httpServeOpts.addr)
 
 		return nil
 	}

@@ -21,6 +21,12 @@ type HTTPServer struct {
 	srv *http.Server
 }
 
+// NewHTTPServer
+func NewHTTPServer() *HTTPServer {
+	logger = log.New(os.Stdout, "", log.LstdFlags)
+	return &HTTPServer{}
+}
+
 /*************************************************************
  * handle HTTP request
  *************************************************************/

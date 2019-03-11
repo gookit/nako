@@ -4,7 +4,6 @@ import (
 	"github.com/gookit/cache"
 	"github.com/gookit/config"
 	"github.com/gookit/event"
-	"github.com/gookit/lako/boot"
 	"github.com/gookit/rux"
 	"github.com/gookit/view"
 	"github.com/syyongx/llog"
@@ -40,15 +39,6 @@ func NewApp() *Application {
 	}
 
 	return app
-}
-
-// get default loaders
-func (a *Application) defaultLoaders() []BootLoader {
-	return []BootLoader{
-		boot.EnvBootLoader("./", ".env"),
-		boot.ConfigBootLoader("./config/app.ini"),
-		&boot.LogBootLoader{},
-	}
 }
 
 // Run the application
