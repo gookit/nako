@@ -30,7 +30,7 @@ func (s *HTTPServer) Run(addr ...string) {
 	app := lako.App()
 
 	s.srv = &http.Server{
-		Addr:    resolveAddress(addr),
+		Addr: resolveAddress(addr),
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			defer func() {
 				if err := recover(); err != nil {

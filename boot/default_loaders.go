@@ -2,6 +2,7 @@ package boot
 
 import (
 	"fmt"
+
 	"github.com/gookit/config/dotnev"
 	"github.com/gookit/event"
 	"github.com/gookit/lako"
@@ -18,7 +19,7 @@ func EnvBootLoader(dir string, envFiles ...string) lako.BootLoader {
 func ConfigBootLoader(confFiles ...string) lako.BootLoader {
 	return lako.BootFunc(func(app *lako.Application) error {
 		app.MustFire(lako.OnBeforeConfig, event.M{
-			"files": confFiles,
+			"files":  confFiles,
 			"config": app.Config,
 		})
 

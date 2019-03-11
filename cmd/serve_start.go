@@ -2,14 +2,15 @@ package cmd
 
 import (
 	"fmt"
+	"os"
+
 	"github.com/gookit/gcli"
 	"github.com/gookit/lako"
 	"github.com/gookit/lako/web"
-	"os"
 )
 
 var httpServeOpts = struct {
-	addr     string
+	addr string
 
 	forceNew bool
 

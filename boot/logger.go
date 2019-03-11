@@ -1,6 +1,8 @@
 package boot
 
 import (
+	"time"
+
 	"github.com/gookit/config"
 	"github.com/gookit/goutil/maputil"
 	"github.com/gookit/lako"
@@ -8,16 +10,14 @@ import (
 	"github.com/syyongx/llog/formatter"
 	"github.com/syyongx/llog/handler"
 	"github.com/syyongx/llog/types"
-	"time"
 )
 
 // LogBootLoader struct
 type LogBootLoader struct {
-
 }
 
 func (*LogBootLoader) Boot(app *lako.Application) error {
-	conf = maputil.MergeStringMap(config.StringMap("log"), map[string]string{
+	conf := maputil.MergeStringMap(config.StringMap("log"), map[string]string{
 		"name":   "my-log",
 		"path":   "/tmp/logs/app.log",
 		"level":  "warning",
@@ -28,7 +28,7 @@ func (*LogBootLoader) Boot(app *lako.Application) error {
 
 	logger := llog.NewLogger("lako")
 
-	file := handler.NewFile("/tmp/llog/go.log", 0664, types.WARNING, true)
+	file := handler.NewFile(conf["path"], 0664, types.WARNING, true)
 	buf := handler.NewBuffer(file, 1, types.WARNING, true)
 	f := formatter.NewLine("%Datetime% [%LevelName%] [%Channel%] %Message%\n", time.RFC3339)
 	file.SetFormatter(f)

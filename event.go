@@ -6,7 +6,7 @@ const (
 	OnAfterBoot  = "app.boot.after"
 
 	OnBeforeConfig = "app.config.before"
-	OnAfterConfig = "app.config.after"
+	OnAfterConfig  = "app.config.after"
 
 	OnBeforeConsole = "app.console.before"
 	OnAfterConsole  = "app.console.after"

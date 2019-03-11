@@ -4,7 +4,7 @@ import (
 	"github.com/gookit/event"
 	"github.com/gookit/gcli"
 	"github.com/gookit/lako"
-	"github.com/gookit/lako/cmd/http"
+	"github.com/gookit/lako/cmd"
 )
 
 // ConsoleBootLoader struct
@@ -18,9 +18,9 @@ func (*ConsoleBootLoader) Boot(app *lako.Application) error {
 	app.MustFire(lako.OnBeforeConsole, event.M{"cliApp": cliApp})
 
 	cliApp.Add(
-		http.StartServerCommand(),
-		http.RestartServerCommand(),
-		http.StopServerCommand(),
+		cmd.StartServerCommand(),
+		cmd.RestartServerCommand(),
+		cmd.StopServerCommand(),
 	)
 
 	cliApp.Run()
