@@ -2,7 +2,6 @@ package web
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -13,30 +12,41 @@ import (
 	"github.com/gookit/lako"
 )
 
-// Logger
-var logger *log.Logger
-
 // HTTPServer an HTTP web server
 type HTTPServer struct {
 	srv *http.Server
+
+	pidFile  string
+	address  []string
+	realAddr string
+
+	processID int
 }
 
-// NewHTTPServer
-func NewHTTPServer() *HTTPServer {
-	logger = log.New(os.Stdout, "", log.LstdFlags)
-	return &HTTPServer{}
+// NewHTTPServer create new HTTPServer.
+// Usage:
+// 	srv := NewHTTPServer("127.0.0.1")
+// 	srv := NewHTTPServer("127.0.0.1:8090")
+// 	srv := NewHTTPServer("127.0.0.1", "8090")
+func NewHTTPServer(address ...string) *HTTPServer {
+	return &HTTPServer{
+		processID: os.Getpid(),
+
+		address:  address,
+		realAddr: resolveAddress(address),
+	}
 }
 
 /*************************************************************
- * handle HTTP request
+ * Start HTTP server
  *************************************************************/
 
-// Run handle HTTP request
-func (s *HTTPServer) Run(addr ...string) {
+// Start server, begin handle HTTP request
+func (s *HTTPServer) Start() error {
 	app := lako.App()
 
 	s.srv = &http.Server{
-		Addr: resolveAddress(addr),
+		Addr: s.realAddr,
 		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			defer func() {
 				if err := recover(); err != nil {
@@ -44,11 +54,16 @@ func (s *HTTPServer) Run(addr ...string) {
 				}
 			}()
 
-			app.MustFire(OnBeforeRoute, event.M{"w": w, "r": r})
+			evtData := event.M{"w": w, "r": r}
 
+			// Fire before route
+			app.MustFire(OnBeforeRoute, evtData)
+
+			// Route and dispatch request
 			app.Router.ServeHTTP(w, r)
 
-			app.MustFire(OnAfterRoute, event.M{"w": w, "r": r})
+			// Fire after route
+			app.MustFire(OnAfterRoute, evtData)
 		}),
 	}
 
@@ -58,9 +73,35 @@ func (s *HTTPServer) Run(addr ...string) {
 	s.handleSignal(s.srv)
 
 	err := s.srv.ListenAndServe()
-	if err != nil {
-		panic(err)
+
+	if err != http.ErrServerClosed {
+		return err
 	}
+	return nil
+}
+
+/*************************************************************
+ * Getter/Setter methods
+ *************************************************************/
+
+// RealAddr get resolved read addr
+func (s *HTTPServer) RealAddr() string {
+	return s.realAddr
+}
+
+// ProcessID return
+func (s *HTTPServer) ProcessID() int {
+	return s.processID
+}
+
+// PidFile get pid file path
+func (s *HTTPServer) PidFile() string {
+	return s.pidFile
+}
+
+// SetPidFile set pid file path
+func (s *HTTPServer) SetPidFile(pidFile string) {
+	s.pidFile = pidFile
 }
 
 // handleSignal handles system signal for graceful shutdown.
@@ -70,17 +111,21 @@ func (s *HTTPServer) handleSignal(server *http.Server) {
 
 	go func() {
 		s := <-c
-		logger.Printf("Got signal [%s], exiting server now", s)
-		if err := server.Close(); nil != err {
-			logger.Printf("Server close failed: %s", err.Error())
+		fmt.Printf("Got signal [%s], exiting server now", s)
+		if err := server.Close(); err != nil{
+			fmt.Printf("Server close failed: %s", err.Error())
 		}
 
 		lako.App().MustFire(OnServerClose, event.M{"sig": s})
 		// service.DisconnectDB()
 
-		logger.Println("Server exited")
+		fmt.Println("Server exited")
 		os.Exit(0)
 	}()
+}
+
+func removePidFile(pidFile string) error {
+	return os.Remove(pidFile)
 }
 
 func resolveAddress(addr []string) (fullAddr string) {

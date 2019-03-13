@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
+	"github.com/gookit/color"
 	"github.com/gookit/gcli"
 	"github.com/gookit/lako"
 	"github.com/gookit/lako/web"
@@ -36,11 +36,13 @@ func StartServerCommand() *gcli.Command {
 	)
 
 	c.Func = func(c *gcli.Command, args []string) error {
-		fmt.Printf("======================== Begin Running(PID: %d) ========================\n", os.Getpid())
+		srv := web.NewHTTPServer(httpServeOpts.addr)
+		addr := srv.RealAddr()
 
-		web.NewHTTPServer().Run(httpServeOpts.addr)
+		fmt.Printf("======================== Begin Running(PID: %d) ========================\n", srv.ProcessID())
+		color.Printf("Serve listen on %s Go to http://%s\n", addr, addr)
 
-		return nil
+		return srv.Start()
 	}
 
 	return c

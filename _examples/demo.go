@@ -8,8 +8,9 @@ import (
 	"github.com/gookit/rux/handlers"
 )
 
-// go build _examples/demo.go && demo
+// go build _examples/demo.go && ./demo
 func main() {
+	// runtime.GOMAXPROCS(runtime.NumCPU())
 	app := lako.DefaultApp()
 
 	// add routes
