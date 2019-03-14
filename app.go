@@ -3,6 +3,7 @@ package lako
 import (
 	"github.com/gookit/cache"
 	"github.com/gookit/config"
+	"github.com/gookit/config/yaml"
 	"github.com/gookit/event"
 	"github.com/gookit/rux"
 	"github.com/gookit/view"
@@ -37,6 +38,9 @@ func NewApp() *Application {
 		// events
 		Manager: event.NewManager("lako"),
 	}
+
+	// add yaml support
+	app.Config.AddDriver(yaml.Driver)
 
 	return app
 }
