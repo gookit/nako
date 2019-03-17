@@ -1,2 +1,3 @@
 name: my application
-listen: 127.0.0.1:8090
+listen: 127.0.0.1:8099
+pidFile: _examples/server.pid

@@ -91,6 +91,10 @@ func (s *HTTPServer) Start() error {
 
 // Stop by send signal to exists process
 func (s *HTTPServer) Stop(timeout int) error {
+	if s.srv != nil {
+		return s.Shutdown(timeout)
+	}
+
 	pid := s.processID
 	if pid <= 0 {
 		return fmt.Errorf("invalid process ID value")
@@ -101,11 +105,19 @@ func (s *HTTPServer) Stop(timeout int) error {
 		return fmt.Errorf("cannot stop, the process is not exists(PID: %d)", pid)
 	}
 
-	return syscall.Kill(pid, syscall.SIGTERM)
+	err := syscall.Kill(pid, syscall.SIGTERM)
+	if err == nil {
+		return removePidFile(s.pidFile)
+	}
+	return err
 }
 
 // Shutdown from internal
-func (s *HTTPServer) Shutdown() error {
+func (s *HTTPServer) Shutdown(timeout int) error {
+	if s.srv == nil {
+		return fmt.Errorf("server is not start")
+	}
+
 	ctx, cancel := context.WithTimeout(context.TODO(), 5*time.Second)
 
 	defer cancel()
@@ -174,7 +186,7 @@ func (s *HTTPServer) handleSignal(server *http.Server) {
 
 	go func() {
 		s := <-c
-		fmt.Printf("Got signal [%s], exiting server now", s)
+		fmt.Printf("Got signal [%s], exiting server now\n", s)
 		if err := server.Close(); err != nil {
 			fmt.Printf("Server close failed: %s", err.Error())
 		}

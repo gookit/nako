@@ -10,6 +10,7 @@
 *.so
 *.dylib
 *.zip
+*.pid
 
 # Test binary, build with `go test -c`
 *.test

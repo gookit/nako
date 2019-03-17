@@ -44,7 +44,11 @@ func StopServerCommand() *gcli.Command {
 		UseFor:  "stop the running http server",
 		Aliases: []string{"http:stop"},
 		Func: func(c *gcli.Command, args []string) error {
-			return stopServer()
+			err := stopServer()
+			if err == nil {
+				 color.Success.Println("Server stopped")
+			}
+			return err
 		},
 	}
 }
@@ -73,7 +77,10 @@ func RestartServerCommand() *gcli.Command {
 }
 
 func createServer() *web.HTTPServer  {
-	return web.NewHTTPServer(httpServeOpts.addr)
+	srv := web.NewHTTPServer(httpServeOpts.addr)
+	srv.SetPidFile(lako.Config().String("pidFile"))
+
+	return srv
 }
 
 func startServer() error {
