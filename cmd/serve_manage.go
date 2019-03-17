@@ -67,8 +67,11 @@ func RestartServerCommand() *gcli.Command {
 
 	c.Func = func(c *gcli.Command, args []string) error {
 		srv := createServer()
-		if srv.IsRunning() {
-			return srv.Stop(3)
+		if srv.IsRunning() { // Stop old
+			err := srv.Stop(3)
+			if err != nil {
+				return err
+			}
 		}
 
 		return startServer()
@@ -85,6 +88,10 @@ func createServer() *web.HTTPServer  {
 
 func startServer() error {
 	srv := createServer()
+	if srv.IsRunning() {
+		return fmt.Errorf("cannot start, server is already running(PID: %d)", srv.ProcessID())
+	}
+
 	addr := srv.RealAddr()
 
 	fmt.Printf("======================== Begin Running(PID: %d) ========================\n", srv.ProcessID())
