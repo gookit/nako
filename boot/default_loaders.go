@@ -25,7 +25,11 @@ func ConfigBootLoader(confFiles ...string) lako.BootLoader {
 
 		fmt.Println("load config files:", confFiles)
 
+		// load from files
 		err := app.Config.LoadExists(confFiles...)
+
+		// load from flags
+		app.Config.LoadFlags([]string{"env"})
 
 		app.MustFire(lako.OnAfterConfig, event.M{"config": app.Config})
 

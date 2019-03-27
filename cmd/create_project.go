@@ -12,12 +12,40 @@ import (
 	"github.com/gookit/goutil/fsutil"
 )
 
+var SkeletonTemplate = `
+app/
+- utils/
+cmd/
+config/
+http/
+- controller/
+-- base.go
+-- home.go
+- middleware/
+-- middleware.go
+internal/
+model/
+resource/
+- lang/
+-- en.ini
+-- zh-CN.ini
+- views/
+-- index.tpl
+static/
+- .keep
+temp/
+- .keep
+test/
+- .keep
+`
+
 var createProjectOpts = struct {
 	repoUrl  string
 	forceNew bool
 
 	//
 	appDir string
+	template string
 }{}
 
 // CreateProjectCommand command

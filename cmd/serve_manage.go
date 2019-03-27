@@ -22,7 +22,7 @@ func StartServerCommand() *gcli.Command {
 	c := &gcli.Command{
 		Name:    "serve:start",
 		UseFor:  "start the new http server",
-		Aliases: []string{"http:start"},
+		Aliases: []string{"web", "http:start"},
 	}
 
 	confAddr := lako.Config().String("listen", "0.0.0.0:8080")

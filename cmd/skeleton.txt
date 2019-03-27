@@ -1,0 +1,21 @@
+app/
+- utils/
+cmd/
+config/
+http/
+- controller/
+-- base.go
+-- home.go
+- middleware/
+-- middleware.go
+internal/
+model/
+resource/
+- lang/
+- views/
+static/
+- .keep
+temp/
+- .keep
+test/
+- .keep
