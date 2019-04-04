@@ -12,7 +12,7 @@ import (
 	"github.com/gookit/goutil/fsutil"
 )
 
-var SkeletonTemplate = `
+var skeletonTemplate = `
 app/
 - utils/
 cmd/

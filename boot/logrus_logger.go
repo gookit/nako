@@ -10,8 +10,9 @@ import (
 // copy form docker codes.
 const RFC3339NanoFixed = "2006-01-02T15:04:05.000000000Z07:00"
 
+// LogrusBootLoader struct
 type LogrusBootLoader struct {
-
+	//
 }
 
 // Boot Logrus component
@@ -23,7 +24,5 @@ func (lb *LogrusBootLoader) Boot(app *lako.Application) error {
 	})
 
 	// logrus.JSONFormatter{}
-
 	return nil
 }
-
