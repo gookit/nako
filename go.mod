@@ -9,9 +9,10 @@ require (
 	github.com/gookit/config v0.0.0-20190309183249-dd5df3d23fb0
 	github.com/gookit/event v1.0.0
 	github.com/gookit/gcli v0.0.0-20190217161834-7f51736425a0
-	github.com/gookit/goutil v0.1.2
+	github.com/gookit/goutil v0.1.3
 	github.com/gookit/ini v1.1.1
 	github.com/gookit/rux v1.1.2
 	github.com/gookit/view v1.0.1
+	github.com/sirupsen/logrus v1.4.0
 	github.com/syyongx/llog v0.0.0-20181208071035-38e5241e271d
 )
