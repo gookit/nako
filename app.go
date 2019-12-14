@@ -2,8 +2,8 @@ package lako
 
 import (
 	"github.com/gookit/cache"
-	"github.com/gookit/config"
-	"github.com/gookit/config/yaml"
+	"github.com/gookit/config/v2"
+	"github.com/gookit/config/v2/yaml"
 	"github.com/gookit/event"
 	"github.com/gookit/rux"
 	"github.com/gookit/view"

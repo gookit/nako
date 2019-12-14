@@ -3,7 +3,7 @@ package boot
 import (
 	"time"
 
-	"github.com/gookit/config"
+	"github.com/gookit/config/v2"
 	"github.com/gookit/goutil/maputil"
 	"github.com/gookit/lako"
 	"github.com/syyongx/llog"

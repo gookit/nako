@@ -2,7 +2,7 @@ package boot
 
 import (
 	"github.com/gookit/event"
-	"github.com/gookit/gcli"
+	"github.com/gookit/gcli/v2"
 	"github.com/gookit/lako"
 	"github.com/gookit/lako/cmd"
 )

@@ -4,8 +4,8 @@ import (
 	"io/ioutil"
 	"runtime"
 
-	"github.com/gookit/gcli"
-	"github.com/gookit/gcli/builtin"
+	"github.com/gookit/gcli/v2"
+	"github.com/gookit/gcli/v2/builtin"
 	"github.com/gookit/lako/cmd"
 )
 
