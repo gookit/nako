@@ -13,7 +13,7 @@ type ConsoleBootLoader struct {
 }
 
 func (*ConsoleBootLoader) Boot(app *nico.Application) error {
-	cliApp := gcli.NewDefaultApp()
+	cliApp := gcli.NewApp()
 
 	app.MustFire(nico.OnBeforeConsole, event.M{"cliApp": cliApp})
 
