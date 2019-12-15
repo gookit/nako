@@ -14,7 +14,7 @@ import (
 
 	"github.com/gookit/event"
 	"github.com/gookit/goutil/sysutil"
-	"github.com/gookit/lako"
+	"github.com/gookit/nico"
 )
 
 // HTTPServer an HTTP web server
@@ -48,7 +48,7 @@ func NewHTTPServer(address ...string) *HTTPServer {
 
 // Start server, begin handle HTTP request
 func (s *HTTPServer) Start() error {
-	app := lako.App()
+	app := nico.App()
 
 	s.srv = &http.Server{
 		Addr: s.realAddr,
@@ -191,7 +191,7 @@ func (s *HTTPServer) handleSignal(server *http.Server) {
 			fmt.Printf("Server close failed: %s", err.Error())
 		}
 
-		lako.App().MustFire(OnServerClose, event.M{"sig": s})
+		nico.App().MustFire(OnServerClose, event.M{"sig": s})
 		// service.DisconnectDB()
 
 		fmt.Println("Server exited")

@@ -5,7 +5,7 @@ import (
 
 	"github.com/gookit/config/v2"
 	"github.com/gookit/goutil/maputil"
-	"github.com/gookit/lako"
+	"github.com/gookit/nico"
 	"github.com/syyongx/llog"
 	"github.com/syyongx/llog/formatter"
 	"github.com/syyongx/llog/handler"
@@ -16,7 +16,7 @@ import (
 type LogBootLoader struct {
 }
 
-func (*LogBootLoader) Boot(app *lako.Application) error {
+func (*LogBootLoader) Boot(app *nico.Application) error {
 	conf := maputil.MergeStringMap(config.StringMap("log"), map[string]string{
 		"name":   "my-log",
 		"path":   "/tmp/logs/app.log",

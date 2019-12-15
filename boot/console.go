@@ -3,8 +3,8 @@ package boot
 import (
 	"github.com/gookit/event"
 	"github.com/gookit/gcli/v2"
-	"github.com/gookit/lako"
-	"github.com/gookit/lako/cmd"
+	"github.com/gookit/nico"
+	"github.com/gookit/nico/cmd"
 )
 
 // ConsoleBootLoader struct
@@ -12,10 +12,10 @@ type ConsoleBootLoader struct {
 	Commands []*gcli.Command
 }
 
-func (*ConsoleBootLoader) Boot(app *lako.Application) error {
+func (*ConsoleBootLoader) Boot(app *nico.Application) error {
 	cliApp := gcli.NewDefaultApp()
 
-	app.MustFire(lako.OnBeforeConsole, event.M{"cliApp": cliApp})
+	app.MustFire(nico.OnBeforeConsole, event.M{"cliApp": cliApp})
 
 	cliApp.Add(
 		cmd.StartServerCommand(),
@@ -25,7 +25,7 @@ func (*ConsoleBootLoader) Boot(app *lako.Application) error {
 
 	cliApp.Run()
 
-	app.MustFire(lako.OnAfterConsole, event.M{"cliApp": cliApp})
+	app.MustFire(nico.OnAfterConsole, event.M{"cliApp": cliApp})
 
 	return nil
 }

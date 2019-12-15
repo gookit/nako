@@ -1,4 +1,4 @@
-package lako
+package nico
 
 import (
 	"github.com/gookit/cache"
