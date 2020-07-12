@@ -30,7 +30,7 @@ func ConfigBootLoader(confFiles ...string) nico.BootLoader {
 
 		// load from flags
 		if err == nil {
-			err =app.Config.LoadFlags([]string{"debug"})
+			err = app.Config.LoadFlags([]string{"debug"})
 		}
 
 		app.MustFire(nico.OnAfterConfig, event.M{"config": app.Config})

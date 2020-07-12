@@ -36,7 +36,7 @@ func NewApp() *Application {
 		Router: rux.New(),
 		Config: config.New("lako"),
 		// events
-		Manager: event.NewManager("lako"),
+		Manager: event.NewManager("gweb"),
 	}
 
 	// add yaml support

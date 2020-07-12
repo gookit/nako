@@ -46,7 +46,7 @@ func StopServerCommand() *gcli.Command {
 		Func: func(c *gcli.Command, args []string) error {
 			err := stopServer()
 			if err == nil {
-				 color.Success.Println("Server stopped")
+				color.Success.Println("Server stopped")
 			}
 			return err
 		},
@@ -55,8 +55,8 @@ func StopServerCommand() *gcli.Command {
 
 func RestartServerCommand() *gcli.Command {
 	c := &gcli.Command{
-		Name: "serve:restart",
-		UseFor: "restart the running http server",
+		Name:    "serve:restart",
+		UseFor:  "restart the running http server",
 		Aliases: []string{"http:restart"},
 	}
 
@@ -79,7 +79,7 @@ func RestartServerCommand() *gcli.Command {
 	return c
 }
 
-func createServer() *web.HTTPServer  {
+func createServer() *web.HTTPServer {
 	srv := web.NewHTTPServer(httpServeOpts.addr)
 	srv.SetPidFile(nico.Config().String("pidFile"))
 

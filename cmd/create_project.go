@@ -44,7 +44,7 @@ var createProjectOpts = struct {
 	forceNew bool
 
 	//
-	appDir string
+	appDir   string
 	template string
 }{}
 
