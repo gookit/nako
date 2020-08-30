@@ -22,6 +22,9 @@ func main() {
 	router.GET("/", func(c *rux.Context) {
 		c.Text(200, "hello")
 	})
+	router.GET("/routes", func(c *rux.Context) {
+		c.Text(200, router.String())
+	})
 
 	app.On(nako.OnAfterBoot, event.ListenerFunc(func(e event.Event) error {
 		return nil

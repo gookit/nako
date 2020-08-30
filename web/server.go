@@ -15,6 +15,7 @@ import (
 	"github.com/gookit/event"
 	"github.com/gookit/goutil/sysutil"
 	"github.com/gookit/nako"
+	"github.com/gookit/slog"
 )
 
 // HTTPServer an HTTP web server
@@ -194,7 +195,7 @@ func (s *HTTPServer) handleSignal(server *http.Server) {
 		nako.App().MustFire(OnServerClose, event.M{"sig": s})
 		// service.DisconnectDB()
 
-		fmt.Println("Server exited")
+		slog.Info("Server exited")
 		os.Exit(0)
 	}()
 }
