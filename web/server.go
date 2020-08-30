@@ -12,10 +12,10 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/gookit/color"
 	"github.com/gookit/event"
 	"github.com/gookit/goutil/sysutil"
 	"github.com/gookit/nako"
-	"github.com/gookit/slog"
 )
 
 // HTTPServer an HTTP web server
@@ -87,7 +87,8 @@ func (s *HTTPServer) Start() error {
 	if err != http.ErrServerClosed {
 		return err
 	}
-	return nil
+
+	return removePidFile(s.pidFile)
 }
 
 // Stop by send signal to exists process
@@ -116,10 +117,13 @@ func (s *HTTPServer) Stop(timeout int) error {
 // Shutdown from internal
 func (s *HTTPServer) Shutdown(timeout int) error {
 	if s.srv == nil {
-		return fmt.Errorf("server is not start")
+		return fmt.Errorf("server is not running")
 	}
 
-	ctx, cancel := context.WithTimeout(context.TODO(), 5*time.Second)
+	ctx, cancel := context.WithTimeout(
+		context.TODO(),
+		time.Duration(timeout)*time.Second,
+	)
 
 	defer cancel()
 	return s.srv.Shutdown(ctx)
@@ -195,7 +199,7 @@ func (s *HTTPServer) handleSignal(server *http.Server) {
 		nako.App().MustFire(OnServerClose, event.M{"sig": s})
 		// service.DisconnectDB()
 
-		slog.Info("Server exited")
+		color.Infoln("Server exited")
 		os.Exit(0)
 	}()
 }
