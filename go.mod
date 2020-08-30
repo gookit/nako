@@ -3,16 +3,19 @@ module github.com/gookit/nico
 go 1.11
 
 require (
-	github.com/gomodule/redigo v2.0.0+incompatible // indirect
-	github.com/gookit/cache v0.0.0-20190325063822-540af04cdf3b
-	github.com/gookit/color v1.2.0
-	github.com/gookit/config/v2 v2.0.13
+	github.com/gookit/cache v0.1.2
+	github.com/gookit/color v1.2.8
+	github.com/gookit/config/v2 v2.0.17
 	github.com/gookit/event v1.0.3
-	github.com/gookit/gcli/v2 v2.1.0
-	github.com/gookit/goutil v0.2.3
-	github.com/gookit/rux v1.2.4
+	github.com/gookit/filter v1.1.0 // indirect
+	github.com/gookit/gcli/v2 v2.3.3
+	github.com/gookit/goutil v0.3.2
+	github.com/gookit/rux v1.2.9
+	github.com/gookit/slog v0.0.2
 	github.com/gookit/view v1.0.2
-	github.com/sirupsen/logrus v1.4.0
-	github.com/syyongx/llog v0.0.0-20190531015452-5d1dfc043e35
-	gopkg.in/yaml.v2 v2.2.7 // indirect
+	github.com/imdario/mergo v0.3.11 // indirect
+	github.com/sirupsen/logrus v1.6.0
+	github.com/stretchr/objx v0.1.1 // indirect
+	golang.org/x/crypto v0.0.0-20200820211705-5c72a883971a // indirect
+	golang.org/x/sys v0.0.0-20200828194041-157a740278f4 // indirect
 )

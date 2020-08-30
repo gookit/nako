@@ -18,7 +18,7 @@ func main() {
 	app := gcli.NewApp(func(app *gcli.App) {
 		app.Version = "1.0.6"
 		app.Description = "this is lako cli application"
-		app.On(gcli.EvtInit, func(data ...interface{}) {
+		app.On(gcli.EvtAppInit, func(data ...interface{}) {
 			// do something...
 			// fmt.Println("init app")
 		})
@@ -31,7 +31,7 @@ func main() {
 
 	app.Add(
 		cmd.CreateProjectCommand(),
-		builtin.GenAutoCompleteScript(),
+		builtin.GenAutoComplete(),
 	)
 
 	app.Run()

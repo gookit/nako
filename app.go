@@ -6,8 +6,8 @@ import (
 	"github.com/gookit/config/v2/yaml"
 	"github.com/gookit/event"
 	"github.com/gookit/rux"
+	"github.com/gookit/slog"
 	"github.com/gookit/view"
-	"github.com/syyongx/llog"
 )
 
 // Application instance
@@ -24,7 +24,7 @@ type Application struct {
 	Cache  cache.Cache
 	Config *config.Config
 	Router *rux.Router
-	Logger *llog.Logger
+	Logger *slog.Logger
 }
 
 // NewApp new application instance

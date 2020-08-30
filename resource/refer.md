@@ -1,4 +1,4 @@
 Director 引导器
 processor 处理器
 
-project: nico, lako
+project: nico, lako, qin

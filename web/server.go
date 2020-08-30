@@ -105,7 +105,7 @@ func (s *HTTPServer) Stop(timeout int) error {
 		return fmt.Errorf("cannot stop, the process is not exists(PID: %d)", pid)
 	}
 
-	err := syscall.Kill(pid, syscall.SIGTERM)
+	err := sysutil.Kill(pid, syscall.SIGTERM)
 	if err == nil {
 		return removePidFile(s.pidFile)
 	}
