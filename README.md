@@ -1,7 +1,7 @@
-# Lako
+# Nako
 
-[![GoDoc](https://godoc.org/github.com/gookit/lako?status.svg)](https://godoc.org/github.com/gookit/lako)
-[![Go Report Card](https://goreportcard.com/badge/github.com/gookit/lako)](https://goreportcard.com/report/github.com/gookit/lako)
+[![GoDoc](https://godoc.org/github.com/gookit/nako?status.svg)](https://godoc.org/github.com/gookit/nako)
+[![Go Report Card](https://goreportcard.com/badge/github.com/gookit/nako)](https://goreportcard.com/report/github.com/gookit/nako)
 
 A lightweight go web framework.
 
@@ -12,10 +12,10 @@ A lightweight go web framework.
 ## Create Project
 
 ```bash
-go get github.com/gookit/lako/cmd/lako
+go get github.com/gookit/nako/cmd/nako
 
 // create new project
-lako new:app my-project ./
+nako new:app my-project ./
 ```
 
 ## Flow

@@ -1,7 +1,7 @@
 package boot
 
 import (
-	"github.com/gookit/nico"
+	"github.com/gookit/nako"
 	"github.com/sirupsen/logrus"
 )
 
@@ -16,7 +16,7 @@ type LogrusBootLoader struct {
 }
 
 // Boot Logrus component
-func (lb *LogrusBootLoader) Boot(app *nico.Application) error {
+func (lb *LogrusBootLoader) Boot(app *nako.Application) error {
 	logrus.SetFormatter(&logrus.TextFormatter{
 		TimestampFormat: RFC3339NanoFixed,
 		DisableColors:   false,

@@ -5,20 +5,20 @@ import (
 
 	"github.com/gookit/config/v2/dotnev"
 	"github.com/gookit/event"
-	"github.com/gookit/nico"
+	"github.com/gookit/nako"
 )
 
 // EnvBootLoader for load .env file
-func EnvBootLoader(dir string, envFiles ...string) nico.BootLoader {
-	return nico.BootFunc(func(app *nico.Application) error {
+func EnvBootLoader(dir string, envFiles ...string) nako.BootLoader {
+	return nako.BootFunc(func(app *nako.Application) error {
 		return dotnev.LoadExists(dir, envFiles...)
 	})
 }
 
 // EnvBootLoader for load config files
-func ConfigBootLoader(confFiles ...string) nico.BootLoader {
-	return nico.BootFunc(func(app *nico.Application) error {
-		app.MustFire(nico.OnBeforeConfig, event.M{
+func ConfigBootLoader(confFiles ...string) nako.BootLoader {
+	return nako.BootFunc(func(app *nako.Application) error {
+		app.MustFire(nako.OnBeforeConfig, event.M{
 			"files":  confFiles,
 			"config": app.Config,
 		})
@@ -33,7 +33,7 @@ func ConfigBootLoader(confFiles ...string) nico.BootLoader {
 			err = app.Config.LoadFlags([]string{"debug"})
 		}
 
-		app.MustFire(nico.OnAfterConfig, event.M{"config": app.Config})
+		app.MustFire(nako.OnAfterConfig, event.M{"config": app.Config})
 
 		return err
 	})

@@ -5,8 +5,8 @@ import (
 
 	"github.com/gookit/color"
 	"github.com/gookit/gcli/v2"
-	"github.com/gookit/nico"
-	"github.com/gookit/nico/web"
+	"github.com/gookit/nako"
+	"github.com/gookit/nako/web"
 )
 
 var httpServeOpts = struct {
@@ -25,7 +25,7 @@ func StartServerCommand() *gcli.Command {
 		Aliases: []string{"web", "http:start"},
 	}
 
-	confAddr := nico.Config().String("listen", "0.0.0.0:8080")
+	confAddr := nako.Config().String("listen", "0.0.0.0:8080")
 	c.StrOpt(&httpServeOpts.addr, "addr", "s", confAddr,
 		"The HTTP server listen address",
 	)
@@ -60,7 +60,7 @@ func RestartServerCommand() *gcli.Command {
 		Aliases: []string{"http:restart"},
 	}
 
-	confAddr := nico.Config().String("listen", "0.0.0.0:8080")
+	confAddr := nako.Config().String("listen", "0.0.0.0:8080")
 	c.StrOpt(&httpServeOpts.addr, "addr", "s", confAddr,
 		"The HTTP server listen address",
 	)
@@ -81,7 +81,7 @@ func RestartServerCommand() *gcli.Command {
 
 func createServer() *web.HTTPServer {
 	srv := web.NewHTTPServer(httpServeOpts.addr)
-	srv.SetPidFile(nico.Config().String("pidFile"))
+	srv.SetPidFile(nako.Config().String("pidFile"))
 
 	return srv
 }

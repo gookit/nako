@@ -1,4 +1,4 @@
-package nico
+package nako
 
 const (
 	ModeDev  mode = "dev"

@@ -4,7 +4,7 @@ import (
 	"github.com/gookit/config/v2"
 	"github.com/gookit/goutil/dump"
 	"github.com/gookit/goutil/maputil"
-	"github.com/gookit/nico"
+	"github.com/gookit/nako"
 	"github.com/gookit/slog"
 )
 
@@ -12,7 +12,7 @@ import (
 type LogBootLoader struct {
 }
 
-func (*LogBootLoader) Boot(app *nico.Application) error {
+func (*LogBootLoader) Boot(app *nako.Application) error {
 	conf := maputil.MergeStringMap(config.StringMap("log"), map[string]string{
 		"name":   "my-log",
 		"path":   "/tmp/logs/app.log",

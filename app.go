@@ -1,4 +1,4 @@
-package nico
+package nako
 
 import (
 	"github.com/gookit/cache"

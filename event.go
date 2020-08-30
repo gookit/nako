@@ -1,4 +1,4 @@
-package nico
+package nako
 
 // Some app event names
 const (

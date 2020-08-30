@@ -6,7 +6,7 @@ import (
 
 	"github.com/gookit/gcli/v2"
 	"github.com/gookit/gcli/v2/builtin"
-	"github.com/gookit/nico/cmd"
+	"github.com/gookit/nako/cmd"
 )
 
 // run:

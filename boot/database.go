@@ -1,13 +1,13 @@
 package boot
 
 import (
-	"github.com/gookit/nico"
+	"github.com/gookit/nako"
 )
 
 type DBBootLoader struct {
 }
 
-func (*DBBootLoader) Boot(app *nico.Application) error {
+func (*DBBootLoader) Boot(app *nako.Application) error {
 
 	return nil
 }
