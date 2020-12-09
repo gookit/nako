@@ -15,9 +15,12 @@ type Application struct {
 	*event.Manager
 
 	Name string
-	data map[string]interface{}
+	params map[string]interface{}
 
 	BootLoaders []BootLoader
+
+	// components
+	components map[string]interface{}
 
 	// components
 	View   *view.Renderer
@@ -30,7 +33,7 @@ type Application struct {
 // NewApp new application instance
 func NewApp() *Application {
 	app := &Application{
-		data: make(map[string]interface{}),
+		params: make(map[string]interface{}),
 
 		// services
 		Router: rux.New(),
@@ -69,15 +72,16 @@ func (a *Application) bootstrap() {
 	}
 }
 
-// Set value to app.data
+// Set component to app.components
 func (a *Application) Set(name string, val interface{}) {
-	a.data[name] = val
+	a.components[name] = val
 }
 
-// Get value from app.data
+// Get component from app.components
 func (a *Application) Get(name string) interface{} {
-	if val, ok := a.data[name]; ok {
+	if val, ok := a.components[name]; ok {
 		return val
 	}
 	return nil
 }
+

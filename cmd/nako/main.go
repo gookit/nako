@@ -31,6 +31,7 @@ func main() {
 
 	app.Add(
 		cmd.CreateProjectCommand(),
+		cmd.InstallSwagCommand(),
 		builtin.GenAutoComplete(),
 	)
 
